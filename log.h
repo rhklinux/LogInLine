@@ -6,6 +6,8 @@
 #include <iostream>
 #include <fstream>
 
+#include "./os/common.h"
+
 using std::string;
 using std::filebuf;
 using std::ostream;
@@ -21,7 +23,11 @@ class logger
 	logger (string &path);
 	~logger();
 
-	inline void operator<< (string &msg) __attribute__((always_inline));
+	//inline vid operator<< (string &msg) __attribute__((always_inline));
+	//inline void operator<< (string msg) __attribute__((always_inline));
+	//inline void set_func_name (string msg) __attribute__((always_inline));
+	
+	inline void operator<< (string &msg) __PORTABLE_FORCE_INLINE__;
 	inline void operator<< (string msg) __attribute__((always_inline));
 	inline void set_func_name (string msg) __attribute__((always_inline));
 
