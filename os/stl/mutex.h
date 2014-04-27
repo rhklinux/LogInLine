@@ -1,11 +1,14 @@
-#ifndef LINUX_MUTEX_WM0DX9BW
+#ifndef MUTEX_45RV0ODG
 
-#define LINUX_MUTEX_WM0DX9BW
+#define MUTEX_45RV0ODG
 
-#include <pthread.h>
+#include <mutex>
 #include <iostream>
 
-typedef pthread_mutex_t mutex_t;
+using std::cerr;
+using std::mutex;
+
+typedef mutex mutex_t;
 
 inline void init_mutex(mutex_t *m)__attribute__((always_inline));
 inline void destroy_mutex(mutex_t *m) __attribute__((always_inline));
@@ -14,22 +17,23 @@ inline void unlock_mutex(mutex_t *m) __attribute__((always_inline));
 
 void init_mutex(mutex_t *m)
 {
-	pthread_mutex_init(m, NULL);
+	m = new mutex();
 }
+
 
 void destroy_mutex(mutex_t *m) 
 {
-	pthread_mutex_destroy(m);
+	delete (m);
 }
 
 void lock_mutex(mutex_t *m)
 {
-	pthread_mutex_lock(m);
+	m->lock();
 }
 
 void unlock_mutex(mutex_t *m)
 {
-	pthread_mutex_unlock(m);
+	m->unlock();
 }
 
-#endif /* end of include guard: LINUX_MUTEX_WM0DX9BW */
+#endif /* end of include guard: MUTEX_45RV0ODG */
