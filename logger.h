@@ -9,6 +9,8 @@
 
 #include "os/common.h"
 #include "os/mutex.h"
+#include "os/time.h"
+
 
 using std::string;
 using std::filebuf;
@@ -81,20 +83,36 @@ class logger
 #endif // DEBUG
 		return *this;
 	}
+	
+	inline void set_timestamp() __PORTABLE_FORCE_INLINE__
+	{
+		*log_stream << get_timestamp() << " ";
+	}
+
+	inline void set_tid() __PORTABLE_FORCE_INLINE__
+	{
+#if THREAD_SAFE
+		*log_stream << get_tid() << " ";
+#endif
+	}
+	
 	//
 	// Never call outside this file. !!
 	// Use LOG macro.
 	//
-	inline void set_func_name(string func_name) __PORTABLE_FORCE_INLINE__
+	inline void set_pre_string(string func_name) __PORTABLE_FORCE_INLINE__
 	{
 #if DEBUG
 #if THREAD_SAFE
 		lock_mutex(&lock);
 #endif // THREAD_SAFE
+		set_tid();
+		set_timestamp();
 		*log_stream << func_name << " : ";
 #endif
 	}
 
+	
 	//
 	// TODO where to use ??
 	// if user uses LOG without << then deadlock
@@ -121,6 +139,6 @@ extern logger *lobj;
 //
 // this is to be used by user.
 //
-#define LOG() lobj->set_func_name(__PRETTY_FUNCTION__); *lobj 
+#define LOG() lobj->set_pre_string(__PRETTY_FUNCTION__); *lobj 
 
 #endif /* end of include guard: LOG_C4ALMVVY */
