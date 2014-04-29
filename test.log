@@ -1,2 +1,2 @@
-int main(int, const char**) : Hello logger world !
-int main(int, const char**) : Hello againworld !
+int main(int, const char**) : Hello logger Data is : 9world !
+int main(int, const char**) : Hello again867.899000-1 world !

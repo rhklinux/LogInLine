@@ -1,15 +1,18 @@
 
-HEADERS = log.h \
+HEADERS = logger.h \
 	  os/common.h \
 	  os/mutex.h \
+	  custom.h \
+	  ./loggable.h
 	  	
 HEADERS_LINUX = os/linux/common.h \
 		os/linux/mutex.h
 
 HEADERS_STL = os/stl/mutex.h
 
-SOURCES = log.cpp \
-	  main.cpp
+SOURCES = logger.cpp \
+	  main.cpp \
+	  custom.cpp
 
 USE_STL = USE_STL
 OS = OS_LINUX
