@@ -3,7 +3,6 @@
 #include "./custom.h"
 #include "logger.h"
 
-
 int main(int argc, const char *argv[])
 {
 	string s("Hello again");
