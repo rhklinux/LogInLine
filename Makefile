@@ -6,8 +6,7 @@ HEADERS = logger.h \
 	  ./loggable.h
 	  	
 HEADERS_LINUX = os/linux/common.h \
-		os/linux/mutex.h \
-		os/linux/time.h	
+		os/linux/mutex.h 
 		
 HEADERS_STL = os/stl/mutex.h
 
