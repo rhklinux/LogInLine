@@ -10,7 +10,6 @@ HEADERS_LINUX = os/linux/common.h \
 		
 HEADERS_STL = os/stl/mutex.h
 
-<<<<<<< HEAD
 SOURCES = logger.cpp \
 	  main.cpp \
 	  custom.cpp
