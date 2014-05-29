@@ -10,4 +10,21 @@
 #endif // OS_LINUX
 #endif // USE_STL
 
+extern mutex_t lock;
+
+class MutexHolder 
+{
+public:
+	MutexHolder ()
+	{
+		lock_mutex(&lock);
+	}
+
+	~MutexHolder ()
+	{
+		unlock_mutex(&lock);
+	}
+};
+
+
 #endif /* end of include guard: MUTEX_BACJ452T */

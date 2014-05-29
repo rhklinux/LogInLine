@@ -16,7 +16,7 @@ using std::filebuf;
 using std::ostream;
 
 #define DEBUG 1
-#define LOG_FILE "test.log"
+//#define LOG_FILE "test.log"
 
 #if DEBUG
 #if THREAD_SAFE
@@ -40,7 +40,7 @@ class logger
 		{
 			log_stream->flush();
 #if THREAD_SAFE
-		unlock_mutex(&lock);
+//		unlock_mutex(&lock);
 #endif // THREAD_SAFE
 		}
 #endif // DEBUG
@@ -103,7 +103,7 @@ class logger
 	{
 #if DEBUG
 #if THREAD_SAFE
-		lock_mutex(&lock);
+//		lock_mutex(&lock);
 #endif // THREAD_SAFE
 		set_tid();
 		set_timestamp();
@@ -120,7 +120,7 @@ class logger
 	{
 #if DEBUG
 #if THREAD_SAFE
-		unlock_mutex(&lock);
+//		unlock_mutex(&lock);
 #endif // THREAD_SAFE
 #endif // DEBUG
 	}
@@ -135,9 +135,10 @@ extern logger *lobj;
 #endif // DEBUG
 
 
-//
-// this is to be used by user.
-//
-#define LOG() lobj->set_pre_string(__PRETTY_FUNCTION__); *lobj 
+#if THREAD_SAFE
+#define LOG() MutexHolder(), lobj->set_pre_string(__PRETTY_FUNCTION__), *lobj 
+#else
+#define LOG() lobj->set_pre_string(__PRETTY_FUNCTION__), *lobj 
+#endif // THREAD_SAFE
 
 #endif /* end of include guard: LOG_C4ALMVVY */
