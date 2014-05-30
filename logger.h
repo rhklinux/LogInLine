@@ -9,13 +9,13 @@
 
 #include "os/common.h"
 #include "os/mutex.h"
-
+#include "debug.h"
 
 using std::string;
 using std::filebuf;
 using std::ostream;
 
-#define DEBUG 1
+//#define DEBUG 1
 //#define LOG_FILE "test.log"
 
 #if DEBUG
