@@ -39,9 +39,6 @@ class logger
 		if (msg.find("\n") != string::npos) // todo may be instead of find just compare last char ?
 		{
 			log_stream->flush();
-#if THREAD_SAFE
-//		unlock_mutex(&lock);
-#endif // THREAD_SAFE
 		}
 #endif // DEBUG
 		return *this;
@@ -111,20 +108,6 @@ class logger
 #endif
 	}
 
-	
-	//
-	// TODO where to use ??
-	// if user uses LOG without << then deadlock
-	//
-	inline void sanity_unlock() __PORTABLE_FORCE_INLINE__
-	{
-#if DEBUG
-#if THREAD_SAFE
-//		unlock_mutex(&lock);
-#endif // THREAD_SAFE
-#endif // DEBUG
-	}
-
 	private:
 	ostream *log_stream;
 	filebuf fb;
@@ -134,6 +117,9 @@ class logger
 extern logger *lobj;
 #endif // DEBUG
 
+//
+//  Thanks to Sammer for Temp obj creation idea !! :)
+//
 
 #if THREAD_SAFE
 #define LOG() MutexHolder(), lobj->set_pre_string(__PRETTY_FUNCTION__), *lobj 
