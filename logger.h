@@ -9,13 +9,14 @@
 
 #include "os/common.h"
 #include "os/mutex.h"
+#include "debug.h"
 
 using std::string;
 using std::filebuf;
 using std::ostream;
 
-#define DEBUG 1
-#define LOG_FILE "test.log"
+//#define DEBUG 1
+//#define LOG_FILE "test.log"
 
 #if DEBUG
 #if THREAD_SAFE
@@ -38,9 +39,6 @@ class logger
 		if (msg.find("\n") != string::npos) // todo may be instead of find just compare last char ?
 		{
 			log_stream->flush();
-#if THREAD_SAFE
-		unlock_mutex(&lock);
-#endif // THREAD_SAFE
 		}
 #endif // DEBUG
 		return *this;
@@ -102,26 +100,12 @@ class logger
 	{
 #if DEBUG
 #if THREAD_SAFE
-		lock_mutex(&lock);
+//		lock_mutex(&lock);
 #endif // THREAD_SAFE
 		set_tid();
 		set_timestamp();
 		*log_stream << func_name << " : ";
 #endif
-	}
-
-	
-	//
-	// TODO where to use ??
-	// if user uses LOG without << then deadlock
-	//
-	inline void sanity_unlock() __PORTABLE_FORCE_INLINE__
-	{
-#if DEBUG
-#if THREAD_SAFE
-		unlock_mutex(&lock);
-#endif // THREAD_SAFE
-#endif // DEBUG
 	}
 
 	private:
@@ -133,10 +117,14 @@ class logger
 extern logger *lobj;
 #endif // DEBUG
 
+//
+//  Thanks to Sammer for Temp obj creation idea !! :)
+//
 
-//
-// this is to be used by user.
-//
-#define LOG() lobj->set_pre_string(__PRETTY_FUNCTION__); *lobj 
+#if THREAD_SAFE
+#define LOG() MutexHolder(), lobj->set_pre_string(__PRETTY_FUNCTION__), *lobj 
+#else
+#define LOG() lobj->set_pre_string(__PRETTY_FUNCTION__), *lobj 
+#endif // THREAD_SAFE
 
 #endif /* end of include guard: LOG_C4ALMVVY */
