@@ -10,7 +10,6 @@
 #include "os/common.h"
 #include "os/mutex.h"
 
-
 using std::string;
 using std::filebuf;
 using std::ostream;
