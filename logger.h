@@ -113,18 +113,23 @@ class logger
 	filebuf fb;
 };
 
-#if DEBUG
+//#if DEBUG
 extern logger *lobj;
-#endif // DEBUG
+//#endif // DEBUG
 
 //
 //  Thanks to Sammer for Temp obj creation idea !! :)
 //
 
+#if DEBUG // DEBUG
 #if THREAD_SAFE
 #define LOG() MutexHolder(), lobj->set_pre_string(__PRETTY_FUNCTION__), *lobj 
 #else
 #define LOG() lobj->set_pre_string(__PRETTY_FUNCTION__), *lobj 
 #endif // THREAD_SAFE
+#else
+#define LOG() *lobj
+#endif // DEBUG
+
 
 #endif /* end of include guard: LOG_C4ALMVVY */

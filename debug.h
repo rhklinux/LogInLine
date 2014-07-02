@@ -15,7 +15,7 @@
 //
 // Enable/Disable locking
 //
-#define THREAD_SAFE 1
+#define THREAD_SAFE 0
 
 #endif //DEBUG_H
 
