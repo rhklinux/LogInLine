@@ -22,6 +22,8 @@ logger *lobj = new logger(filename);
 #else
 logger *lobj = new logger;
 #endif // LOG_FILE
+#else 
+logger *lobj = new logger;
 #endif // DEBUG
 
 #if DEBUG
