@@ -3,7 +3,9 @@ HEADERS = logger.h \
 	  os/common.h \
 	  os/mutex.h \
 	  custom.h \
-	  ./loggable.h
+	  ./loggable.h \
+	  ./debug.h
+	
 	  	
 HEADERS_LINUX = os/linux/common.h \
 		os/linux/mutex.h 
