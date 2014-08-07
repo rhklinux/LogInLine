@@ -10,12 +10,12 @@
 // specify log file path in quotes.
 // If commented out logs will written to std::cerr
 //
-#define LOG_FILE "test.log"
+//#define LOG_FILE "test.log"
 
 //
 // Enable/Disable locking
 //
-#define THREAD_SAFE 0
+#define THREAD_SAFE 1
 
 #endif //DEBUG_H
 
