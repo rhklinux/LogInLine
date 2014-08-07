@@ -1,1 +1,2 @@
-1) instead of LOG_FILE write init function.
+1) do the stream flush in temp object, change the class name.
+2) Test mutlithreaded

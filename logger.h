@@ -123,6 +123,8 @@ extern logger *lobj;
 
 #if DEBUG // DEBUG
 #define LOG() MutexHolder(), lobj->set_pre_string(__PRETTY_FUNCTION__), *lobj 
+#else
+#define LOG() *lobj
 #endif // DEBUG
 
 

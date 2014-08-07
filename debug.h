@@ -4,7 +4,7 @@
 //
 // Enable/Disable log
 //
-#define DEBUG 0
+#define DEBUG 1
 
 //
 // specify log file path in quotes.
