@@ -8,21 +8,11 @@
 #include <string.h>
 
 #include "os/common.h"
-#include "os/mutex.h"
 #include "debug.h"
 
 using std::string;
 using std::filebuf;
 using std::ostream;
-
-//#define DEBUG 1
-//#define LOG_FILE "test.log"
-
-#if DEBUG
-#if THREAD_SAFE
-extern mutex_t lock;
-#endif // THREAD_SAFE
-#endif // DEBUG
 
 class logger
 {
@@ -36,10 +26,10 @@ class logger
 	{
 #if DEBUG 
 		*log_stream << msg;
-		if (msg.find("\n") != string::npos) // todo may be instead of find just compare last char ?
-		{
-			log_stream->flush();
-		}
+	//	if (msg.find("\n") != string::npos) // todo may be instead of find just compare last char ?
+	//	{
+	//		log_stream->flush();
+	//	}
 #endif // DEBUG
 		return *this;
 	}
@@ -99,30 +89,40 @@ class logger
 	inline void set_pre_string(string func_name) __PORTABLE_FORCE_INLINE__
 	{
 #if DEBUG
-#if THREAD_SAFE
-//		lock_mutex(&lock);
-#endif // THREAD_SAFE
 		set_tid();
 		set_timestamp();
 		*log_stream << func_name << " : ";
 #endif
 	}
 
+	inline void flush_stream () __PORTABLE_FORCE_INLINE__
+	{
+#if DEBUG
+		std::cout << "flushing stream\n";
+		if (!log_stream->fail())
+		{
+			log_stream->flush();
+		}
+#endif
+	}
 	private:
 	ostream *log_stream;
 	filebuf fb;
 };
+#include "os/mutex.h"
 
 //#if DEBUG
 extern logger *lobj;
 //#endif // DEBUG
+
+
 
 //
 //  Thanks to Sammer for Temp obj creation idea !! :)
 //
 
 #if DEBUG // DEBUG
-#define LOG() MutexHolder(), lobj->set_pre_string(__PRETTY_FUNCTION__), *lobj 
+#define LOG() MutexHolder(lobj), lobj->set_pre_string(__PRETTY_FUNCTION__), *lobj 
 #else
 #define LOG() *lobj
 #endif // DEBUG

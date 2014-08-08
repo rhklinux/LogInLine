@@ -13,7 +13,6 @@
 #endif // USE_STL
 
 #include "../debug.h"
-#include "../logger.h"
 using std::ostream;
 
 extern mutex_t lock;
@@ -22,21 +21,23 @@ extern mutex_t lock;
 class MutexHolder 
 {
 public:
-	MutexHolder ()
+	MutexHolder (logger* _logger)
 	{
 #if THREAD_SAFE
-		std::cout << "Locking\n";
 		lock_mutex(&lock);
 #endif
+		this->_logger = _logger;
 	}
 
 	~MutexHolder ()
 	{
 #if THREAD_SAFE
-		std::cout << "Unlocking\n";
 		unlock_mutex(&lock);
 #endif
+		_logger->flush_stream ();
 	}
+private:
+	logger* _logger;
 };
 
 

@@ -1,4 +1,4 @@
-CC = g++
+CC = clang++
 CCV = c++11
 HEADERS = logger.h \
 	  os/common.h \
@@ -29,7 +29,8 @@ target-linux-stl: $(SOURCES) $(HEADERS) $(HEADERS_LINUX) $(HEADERS_STL)
 
 target-linux: $(SOURCES) $(HEADERS) $(HEADERS_LINUX) $(HEADERS_STL)
 	$(CC) -std=$(CCV) -D$(OS) -o target-linux $(SOURCES)
-
+preproc.c : $(SOURCES) $(HEADERS) $(HEADERS_LINUX) $(HEADERS_STL)
+	$(CC) -E -std=$(CCV) -D$(OS)  $(SOURCES)
 clean:
 	rm target-linux-stl
 	rm target-linux
