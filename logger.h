@@ -109,12 +109,12 @@ class logger
 	ostream *log_stream;
 	filebuf fb;
 };
-#include "os/mutex.h"
 
 //#if DEBUG
 extern logger *lobj;
 //#endif // DEBUG
 
+#include "os/mutex.h"
 
 
 //
@@ -122,7 +122,7 @@ extern logger *lobj;
 //
 
 #if DEBUG // DEBUG
-#define LOG() MutexHolder(lobj), lobj->set_pre_string(__PRETTY_FUNCTION__), *lobj 
+#define LOG() MutexHolder().set_stream (lobj), lobj->set_pre_string(__PRETTY_FUNCTION__), *lobj 
 #else
 #define LOG() *lobj
 #endif // DEBUG

@@ -21,12 +21,18 @@ extern mutex_t lock;
 class MutexHolder 
 {
 public:
-	MutexHolder (logger* _logger)
+	MutexHolder () :_logger (nullptr)
 	{
 #if THREAD_SAFE
 		lock_mutex(&lock);
 #endif
-		this->_logger = _logger;
+	}
+
+	void set_stream (logger *l)
+	{
+#if THREAD_SAFE
+		this->_logger = l;
+#endif
 	}
 
 	~MutexHolder ()
@@ -34,7 +40,8 @@ public:
 #if THREAD_SAFE
 		unlock_mutex(&lock);
 #endif
-		_logger->flush_stream ();
+		if (_logger != nullptr)
+			_logger->flush_stream ();
 	}
 private:
 	logger* _logger;
